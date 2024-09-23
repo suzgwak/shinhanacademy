@@ -111,7 +111,6 @@ Youtube | 레코벨의 추천 서비스 고군 분투기 - 박진우 헤드 엔�
 [3. 실습: ElasticBeanstalk로 FastAPI 배포하기]
 Youtube | [코딩애플] 느슨해진 백엔드씬에 긴장감을 주는 FastAPI 프레임워크 
 1:13 - 2:10 (실제 3:15)
-
 1. anaconda / miniconda 설치
 2. pip install "fastapi[all]"
 3. vscode에 app.py에 코드 작성 (*vscode copilot)
