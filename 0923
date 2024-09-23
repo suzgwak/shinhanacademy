@@ -1,0 +1,139 @@
+클라우드의 이해와 클라우드 보안 2024-09-23
+
+[1. 스토리지]
+On Premise
+- 비용 지불이 필요함
+AWS Cloud
+- 사용한 만큼 비용을 지불
+- 스토리지 구분 : 블록 스토리지, 파일 스토리지, 객체 스토리지
+- 코어 스토리지 서비스 
+    - 블록 스토리지 : Amazon EBS (Electric Block Service)
+        네트워크(블록) 단위로 구획화해서 읽고 쓰기 편하다
+        1기가 파일이 저장되어 있을 때 할당된 블록에 변경한다
+    - 파일 스토리지 : 
+        파일 탐색기 형태
+    - 객체 스토리지 : Netflix
+        단일 파일
+        용량이나 유형(수십 TB, Binary File 등)에 제한이 없고 백업 이슈 거의 없다
+- 데이터 마이그레이션 서비스
+
+Amazon EC2 인스턴스 스토어
+  중지하면 인스턴스 스토어 내부의 데이터도 삭제된다
+  컴퓨터 저장장치에 직점 연결 > 고성능 > 딥러닝, Hadoop 환경
+
+Amazon EBS, Electric Block Storage
+  중지하더라도 데이터 유지된다 
+  네트워크에 연결
+  운영체제 설치, 데이터베이스에 사용
+  EBS 볼륨 
+    솔리드 스테이트 드라이브(SSD) 및 하드 디스크 드라이브(HDD)-마그네틱 방식
+    워크로드 유형별 선택 데이터베이스, 빅데이터 분석, 파일/미디어 등
+  AMI : EBS Snapshot
+
+Amazon S3, Simple Storage Service
+  객체 스토리지 서비스
+  보안 사고 (ex. S3 유출) > IAM 정책
+  버전 관리 기능 비용 발생하므로 버전 관리하지 않음(기본)을 사용한다
+  S3 스토리지 클래스
+    저장하는 주기에 따라서 유형이 구분된다
+    저장 빈도가 저빈도인지 고빈도인지 / 아카이브 용도의 S3 Glacier 클래스 / 기타
+  리전 간 스토리지 복제 서비스 제공
+
+** 비용 관리 **
+
+스토리지 선택
+  스토리지 유형
+    1. 블록 스토리지
+    2. 객체 스토리지
+    3. 파일 스토리지
+  스토리지 선택의 필요성
+  일반적인 Amazon Cloud 스토리지
+    1. S3 Standard : 모든 가용영역에 업데이트
+    2. S3 Standard-IA (Infrequent Access)
+    3. Amazon S3 Glacier 
+  Intelligent Tiering 
+
+기타 
+  EC2 인스턴스에 EBS 연결해서 사용하고
+  EFS 여러 인스턴스가 스토리지를 공유한다
+  Security
+  99.999999999 nine eleven how? 분산 처리
+
+[2. 데이터베이스]
+AWS RDS의 DB엔진
+  상용
+    - ORACLE *주사용처 은행권
+    - Microsoft SQL Server
+  오픈소스
+    - Maria DB
+    - PostgreSQL
+    - MySQL
+
+관계형 데이터베이스
+  쿼리 작성 모델 *Google 자체 개발 모델 사용, SQL 코드 작성하는 직무 사라지고 검증하는 직무만 남는 추세로
+  단점 : 용량 늘리기 어려움, 단일 인스턴스
+
+AWS 데이터베이스
+  1. Amazon RDS, 관리형 관계형 데이터베이스 서비스
+    관리포인트가 많다
+    Amazon Aurora : 일반 오프소스보다 몇 배 빠른 서비스지만 그만큼 비싸다, 인스턴스의 갯수를 늘린다, 그만큼 비싸다 *AWS Cloud 성장의 요인
+  2. Amazon DynamoDB
+    High durable
+    용량 제한이 없음
+    NoSQL 데이터베이스
+    key-value 데이터 형태
+    10ms 미만의 빠른 성능
+  3. Amazon 
+
+캐시
+  EBS 원본이 아니라
+  물리적인 거리가 나와 가까운 캐시에 저장
+
+DB 인스턴스
+  - 
+  - SSD (일반적으로 사용)
+  - 마그네틱 읽기쓰기 속도 느림
+
+자동 백업
+  저장만 하게 되므로
+  S3 객체 스토리지에 저장
+
+Database를 쓸건지 In memory Caching을 쓸건지
+  인스타그램 댓글 - In memory
+  Redis
+
+Youtube | 레코벨의 추천 서비스 고군 분투기 - 박진우 헤드 엔지니어(레코벨)
+  주니어 개발자의 시행착오 공유
+  개발자 커뮤니티, 컨퍼런스
+  클라우드 위에 추천서비스 소프트웨어 올려서 SaaS로 제공하려는 니즈
+  IOPS : Input과 Output이 많이 발생
+
+[3. 실습: ElasticBeanstalk로 FastAPI 배포하기]
+Youtube | [코딩애플] 느슨해진 백엔드씬에 긴장감을 주는 FastAPI 프레임워크 
+1:13 - 2:10 (실제 3:15)
+1. anaconda / miniconda 설치
+2. pip install "fastapi[all]"
+3. vscode에 app.py에 코드 작성 (*vscode copilot)
+4. redis 생성 (인스턴스 유형 micro) 
+5. ssh tunneling
+6. uvicorn app:app (uvicorn execute fast API, app app.py, app app.py 내에 정의된 함수 app)
+7. 웹페이지 스크린샷
+
+1. miniconda 설치
+2. anaconda prompt 실행
+3. 가상환경 생성하고 python 설치  $conda create -n fastapi-demo python=3.11
+4. 가상환경 실행  $activate fastapi-demo
+5. fastapi 설치  $pip install fastapi[all]
+6. VSCode
+    6-1. ctrl+shift+p > Select Interpreter > 가상환경 선택
+    6-2. 하단 terminal 에서 command prompt 선택
+    6-3. $dir 
+    6-4. $pip install redis
+7. AWS
+  1. Elastic 캐시
+  2. 인스턴스 *같은 vpc인지
+  3. 보안 그룹 *6379
+  4. 터널링 *인스턴스 사용자 이름
+8. key, value Redis에 입력(POST) 웹에서 출력(GET) 확인
+
+[4. 실습: ElasticBeanstalk로 FastAPI 배포하기]
